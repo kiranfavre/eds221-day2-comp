@@ -7,4 +7,191 @@ execute:
   message: false
 ---
 
-## 
+```{r}
+library(tidyverse)
+```
+
+## Vectors
+
+```{r}
+# create a vector
+dogs <- c("teddy", "khora", "waffle", "banjo", "tallie")
+
+#check the class in the console so it is not rerun each time, but will put here just for the notes 
+class(dogs)
+```
+
+```{r}
+#what happens if there are different class types
+cats <- c("creamsicle wolf", 14.5, 3L)
+#will output character beccause it is the most flexible
+```
+
+```{r}
+years <- c(20, 40, 16, 2)
+# what is the class
+class(years)
+# if you want to dig deeper into the data, you can use typeof
+typeof(years) 
+```
+
+```{r}
+# if you want to do a conditional check
+# is. <<< asks questions: "is this THIS?"
+# as. <<< gives a command: "make this THIS!"
+
+# is the vector, years, numeric?
+is.numeric(years)
+
+#is years, characters?
+is.character(years)
+```
+
+```{r}
+# we are going to add an attribute to this vector which will be names
+dog_food <- c(teddy = "purina", khora = "alpo", waffle = "fancy feast")
+
+dog_food 
+
+#what is in position 2?
+dog_food
+
+#we want info for khora, but what if the data changes and we can't use the position?
+dog_food["khora"]
+```
+
+```{r}
+cars <- c("blue", "orange", "white")
+cars[1]
+
+#1 to 2 is the positioning 
+i <- seq(1:2)
+cars[i]
+```
+
+#### Mutability
+
+```{r}
+#we can overwrite existing values
+cars[3] <- "yellow"
+```
+
+## Matrices
+
+```{r}
+# we are making the vector inside the matrix function, coulda done it outside too
+# byrow function tells us how we want to populate this matrix
+
+fish_size <- matrix(c(2, 5, 4, 93),
+                    ncol= 2,
+                    nrow =2,
+                    byrow = FALSE)
+
+class(fish_size)
+typeof(fish_size)
+
+# example of indexing:
+# remember that indexing is by row, column!
+fish_size[1,1]
+fish_size[2,1]
+
+
+# what happens if we create a matrix with different types of data?
+fish_type <- matrix(c(2, "trout", 4, 13L),
+                    ncol= 2,
+                    nrow =2,
+                    byrow = FALSE)
+class(fish_type)
+typeof(fish_type)
+fish_type
+
+# what if we leave a space? 
+# we will only look at the second row, but keep all columns
+fish_size[2,]
+fish_size[,1]
+```
+
+## Lists
+
+Remember: A list combines vectors that can be of different length and type! Very flexible way to combine different types of variables in one object
+
+```{r}
+#notice how these are vectors of different length!
+urchins <- list("blue",
+                c(1, 2, 3),
+                c("a cat", "a dog"), 
+                5L)
+urchins
+
+urchin_list <- urchins[3] 
+# returns a list
+
+urchin_vector <- urchins[[3]] 
+# returns a vector
+```
+
+#### Make a named list
+
+```{r}
+tacos <- list(topping = c("onion", "cilantro", "guacamole"),
+              filling = c("beans", "meat", "veggies"),
+              price = c(6.75, 8.25, 9.50))
+
+tacos
+
+# Index list elements by name
+tacos$filling
+
+#look at the second element in the fillings vector
+tacos$filling[2]
+```
+
+### t-test
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(3, 4, 5)
+my_ttest <- t.test(a, b)
+my_ttest
+
+# want to know the p value?
+my_ttest$p.value
+```
+
+The price for a burrito with guacamole is `r tacos$topping[2]`
+
+## Data frames
+
+```{r}
+# one way to make a data frame
+topping <- c("onion", "cilantro", "guacamole")
+filling <- c("beans", "meat", "veggies")
+price <- c(6.75, 8.25, 9.50)
+
+df_example1 <- data.frame(topping, filling, price)
+class(df_example1)
+
+# another example of how to make a data frame
+df_example2 <- data.frame(topping = c("sour cream", "salsa", "cheese"),
+                filling = c("chicken", "cheese", "cabbage"),
+                price = c(12.50, 13.75, 15.00))
+
+# and another way to make a data frame!
+df_example3 <- tribble(
+  ~topping, ~filling, ~price,
+"avacado", "steak", 13.25,
+"radish", "fish", 10.40,
+"salsa", "veggies", 9.75)
+
+
+```
+
+Let's index from these data frames
+
+```{r}
+#we want to look at the prices (price vector) in example 3
+df_example3$price
+
+#what about the third price in the list?
+df_example3$price[3]
+```
